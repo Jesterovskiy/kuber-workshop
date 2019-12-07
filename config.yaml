@@ -4,11 +4,20 @@ metadata:
   name: my-first-pod
 spec:
   containers:
-    - name: my-first-container
-      image: gmile/workshop-app:v14
-      volumeMounts:
-        - name: my-data
-          mountPath: '/my/path'
+  - name: api
+    image: gmile/workshop-app:v14
+    env:
+      - name: DATABASE_URL
+        value: postgres://postgres@localhost:5432/my-test-db
+  - name: db
+    image: postgres:12.0-alpine
+    env:
+      - name: POSTGRES_DB
+        value: my-test-db
+    volumeMounts:
+      - name: my-data
+        mountPath: /var/lib/postgresql/data
+        subPath: postgresql-folder
   volumes:
     - name: my-data
       persistentVolumeClaim:
