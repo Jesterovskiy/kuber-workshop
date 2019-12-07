@@ -5,4 +5,11 @@ metadata:
 spec:
   containers:
     - name: my-first-container
-      image: nginx
+      image: gmile/workshop-app:v14
+      volumeMounts:
+        - name: my-data
+          mountPath: '/my/path'
+  volumes:
+    - name: my-data
+      persistentVolumeClaim:
+        claimName: pvc-for-our-tests
