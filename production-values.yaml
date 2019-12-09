@@ -1,0 +1,4 @@
+replicas: 4
+node_port: 31002
+image: gmile/workshop-app:v14
+message: Production message!

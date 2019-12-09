@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: my-super-config
+  labels:
+    my_app: hello-world
+data:
+  my_config_key: my_config_value
+  important-file.txt: {{ .Values.message }}

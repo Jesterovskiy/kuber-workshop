@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-app
+spec:
+  replicas: {{ .Values.replicas }}
+  selector:
+    matchLabels:
+      my_app: hello-world
+  template:
+    metadata:
+      name: hello-world
+      labels:
+        my_app: hello-world
+        testing: deployment
+    spec:
+      volumes:
+        - name: my-volume-with-config-file
+          configMap:
+            name: my-super-config
+            items:
+              - key: important-file.txt
+                path: important-file.txt
+      containers:
+        - name: api
+          volumeMounts:
+            - name: my-volume-with-config-file
+              mountPath: /dir-with-my-configs
+          image: {{ .Values.image }}
+          env:
+            - name: CONFIG_MAP_PATH
+              value: /dir-with-my-configs/important-file.txt
+          resources:
+            requests:
+              cpu: 1m
+            limits:
+              cpu: 500m
+              memory: 500Mi
